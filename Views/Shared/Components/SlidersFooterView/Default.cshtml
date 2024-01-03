@@ -1,0 +1,14 @@
+﻿@using Reader.Models;
+@using Reader.Utilities;
+@using Microsoft.AspNetCore.Http;
+
+@model IList<TblPost>
+<div class="instagram-slider">
+    @foreach (var item in Model)
+    {
+        string url = Functions.TitleSlugGeneration("post", item.Title, item.PostId);
+
+        <div class="instagram-post"><img src="@item.Thumb"></div>
+
+    }
+</div>

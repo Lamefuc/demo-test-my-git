@@ -1,0 +1,17 @@
+﻿@using Reader.Models;
+@using Reader.Utilities;
+
+@model IList<TblCategory>
+
+
+
+<div class="widget widget-categories">
+    <h4 class="widget-title"><span>Danh mục</span></h4>
+    <ul class="list-unstyled widget-list">
+        @foreach (var item in Model)
+        {
+            string Url = Functions.TitleSlugGeneration("list", item.CategoryName, item.CategoryId);
+            <li><a href="/@Url" class="d-flex">@item.CategoryName <small class="ml-auto">(4)</small></a></li>
+        }
+    </ul>
+</div>

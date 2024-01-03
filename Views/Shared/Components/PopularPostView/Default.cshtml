@@ -1,0 +1,55 @@
+﻿@using Reader.Models;
+@using Reader.Utilities;
+@using Microsoft.AspNetCore.Http;
+
+@model IList<TblPost>
+
+<div class="col-lg-8 mb-5">
+    <h2 class="h5 section-title">Mới nhất</h2>
+    @foreach (var item in Model)
+    {
+        string url = Functions.TitleSlugGeneration("post", item.Title, item.PostId);
+        <div>
+            <article class="card">
+                <div class="post-slider slider-sm">
+                    @if (item.Thumb != null)
+                    {
+                        <img src="@item.Thumb" class="card-img-top" alt="post-thumb">
+                    }
+                    else
+                    {
+                        <img src="~/assets/images/post/post-5.jpg" class="card-img-top" alt="post-thumb">
+
+                    }
+                </div>
+                <div class="card-body">
+                    <h3 class="h4 mb-3"><a class="post-title" href="/@url">@item.Title</a></h3>
+                    <ul class="card-meta list-inline">
+                        <li class="list-inline-item">
+                            <a href="author-single.html" class="card-meta-author">
+                                <img src="~/assets/images/john-doe.jpg" alt="Kate Stone">
+                                <span>Huy Phước</span>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <i class="ti-timer"></i>2 phút đọc
+                        </li>
+                        <li class="list-inline-item">
+                            <i class="ti-calendar"></i>@item.CreatedDate.Value.ToString("dd/MM/yyyy")
+                        </li>
+                        <li class="list-inline-item">
+                            <ul class="card-meta-tag list-inline">
+                                <li class="list-inline-item"><a href="#">VN</a></li>
+                                <li class="list-inline-item"><a href="#">TQ</a></li>
+                                <li class="list-inline-item"><a href="#">HQ</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>@Html.Raw(item.Description)</p>
+                    <a href="/@url" class="btn btn-outline-primary">Xem thêm</a>
+                </div>
+            </article>
+
+        </div>
+    }
+</div>

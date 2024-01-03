@@ -1,0 +1,39 @@
+﻿@using Reader.Models;
+@using Reader.Utilities;
+@using Microsoft.AspNetCore.Http;
+
+@model IList<TblPost>
+
+<!-- recent post -->
+<div class="widget">
+    <h4 class="widget-title">Bài viết gần đây</h4>
+    @foreach (var item in Model)
+    {
+        string url = Functions.TitleSlugGeneration("post", item.Title, item.PostId);
+        <!-- post-item -->
+        <article class="widget-card">
+            <div class="d-flex">
+                @if(item.Thumb != null) {
+                    <img class="card-img-sm" src="@item.Thumb">
+
+                }else {
+                    <img class="card-img-sm" src="~/assets/images/post/post-10.jpg">
+
+                }
+                <div class="ml-3">
+                    <h5><a class="post-title" href="/@url">@item.Title</a></h5>
+                    <ul class="card-meta list-inline mb-0">
+                        <li class="list-inline-item mb-0">
+                            <i class="ti-calendar"></i>@item.CreatedDate.Value.ToString("dd/MM/yyyy")
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+
+    }
+
+
+</div>
+
+

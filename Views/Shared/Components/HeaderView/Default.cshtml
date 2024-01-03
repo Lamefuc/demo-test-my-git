@@ -1,0 +1,94 @@
+﻿@using Reader.Models;
+@using Reader.Utilities;
+@using Microsoft.AspNetCore.Http;
+
+@model IList<TblMenu>
+
+<header class="navigation fixed-top">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-white">
+            <a class="navbar-brand order-1" asp-controller="Home" asp-action="Index">
+                <img class="img-fluid" width="100px" src="~/assets/images/logo.png"
+                     alt="Reader | Hugo Personal Blog Template">
+            </a>
+            <div class="collapse navbar-collapse text-center order-lg-2 order-3" id="navigation">
+                <ul class="navbar-nav mx-auto">
+                    
+
+                    @foreach (var menu in Model.Where(m => m.Levels == 1).OrderBy(o => o.MenuOrder))
+                    {
+
+                        string url = Functions.TitleSlugGeneration("list", menu.MenuName, menu.MenuId);
+
+                        if (!string.IsNullOrEmpty(menu.Link))
+                        {
+                            url = menu.Link;
+                        }
+
+                        var IDC1 = menu.MenuId;
+
+                        var dsMenuC2 = Model.Where(p => (p.ParentId == IDC1)).OrderBy(p => p.MenuOrder).ToList();
+
+                        @if (dsMenuC2.Count == 0)
+                        {
+                            if (menu.MenuOrder == 0)
+                            {
+
+                                <li class="nav-item"><a asp-controller="Home" asp-action="Index" class="nav-link">@menu.MenuName</a></li>
+
+                            }
+                            else
+                            {
+                                <li class="nav-item"><a href="/@url" class="nav-link">@menu.MenuName</a></li>
+                            }
+                        }
+                        else
+                        {
+                          
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="/@url" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @menu.MenuName <i class="ti-angle-down ml-1"></i>
+                                </a>
+                                <div class="dropdown-menu">
+                                    @foreach (var menu2 in dsMenuC2)
+                                    {
+                                        string url2 = Functions.TitleSlugGeneration("list", menu2.MenuName, menu2.MenuId);
+
+                                        if (!string.IsNullOrEmpty(menu2.Link))
+                                        {
+                                            url = menu2.Link;
+                                        }
+                                        <a class="dropdown-item" href="/@url2">@menu2.MenuName</a>
+
+                                    }
+
+                                </div>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+
+            @*<div class="order-2 order-lg-3 d-flex align-items-center">
+                <select class="m-2 border-0 bg-transparent" id="select-language">
+                    <option id="en" value="" selected>En</option>
+                    <option id="fr" value="">US</option>
+                </select>
+
+                <!-- search -->
+                <form class="search-bar">
+                    <input id="search-query" name="s" type="search" placeholder="Type &amp; Hit Enter...">
+                </form>
+
+                <button class="navbar-toggler border-0 order-1" type="button" data-toggle="collapse" data-target="#navigation">
+                    <i class="ti-menu"></i>
+                </button>
+            </div>*@
+
+        </nav>
+    </div>
+</header>
+
+
+
